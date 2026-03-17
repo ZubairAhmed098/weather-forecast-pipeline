@@ -63,6 +63,7 @@ def main():
     (
         df2.write
            .format("bigquery")
+           .mode("append")
            .option("table", f"{project}.{dataset}.{table}")
            .option("temporaryGcsBucket", temp_bucket)
            .option("createDisposition", "CREATE_IF_NEEDED")
