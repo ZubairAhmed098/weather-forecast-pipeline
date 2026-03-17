@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   deploy-codebase:
     if: github.ref == 'refs/heads/main'
@@ -16,10 +20,11 @@ jobs:
         uses: actions/checkout@v3
 
       # Authenticate to GCP Account
-      - name: Authenticate to GCP
-        uses: google-github-actions/auth@v1
+      - id: auth
+        uses: google-github-actions/auth@v2.0.0  
         with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          workload_identity_provider: 'projects/611054035776/locations/global/workloadIdentityPools/weather-project/providers/github'
+          service_account: 'findzubair7777@project-19330bef-483f-4dc8-bf6.iam.gserviceaccount.com'
 
       # Setup Google Cloud SDK
       - name: Setup Google Cloud SDK
